@@ -52,7 +52,7 @@ export class CategoryComponent implements OnInit {
   }
 
   openEditarCategoriaModal(categoryId: number) {
-    console.log('Open modal ' + categoryId);
+    //console.log('Open modal ' + categoryId);
     this.showForm = true;
     this.isEditing = true;
     

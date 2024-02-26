@@ -17,3 +17,15 @@ h1 {
     font-size: 24px;
     margin-bottom: 10px;
 }
+
+
+.music-categories {
+    text-align: center;
+    padding: 20px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

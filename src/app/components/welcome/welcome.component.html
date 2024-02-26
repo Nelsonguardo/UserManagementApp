@@ -1,36 +1,31 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
 <body>
     <app-navbar></app-navbar>
     <div class="welcome-container">
         <h1>Bienvenido {{ user.name }}</h1>
-        <div class="user-info">
-            <p>Nombre: {{ user.name }}</p>
-            <p>Apellido: {{ user.last_name }}</p>
-            <!-- <p>Email: {{ user.email }}</p>
-            <p>Identificación: {{ user.identification }}</p>
-            <p>Número de celular: {{ user.phone_number }}</p>
-            <p>Fecha de cumpleaños: {{ user.birthday }}</p> -->
-        </div>
     </div>
-    <div class="music-categories">
-        <mat-form-field appearance="fill">
-            <mat-label>Categorías Musicales</mat-label>
-            <input type="text" matInput placeholder="Selecciona o escribe una categoría"
-                [formControl]="musicCategoriesControl" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
-                    {{ category }}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-    </div>
-</body>
 
-</html>
+    <!-- La información del usuario se mostrará solo si el usuario no es un administrador -->
+    <ng-container *ngIf="!newUser.is_admin">
+        <div class="user-info">
+            <p>Nombre: {{ newUser.name }}</p>
+            <p>Apellido: {{ newUser.last_name }}</p>
+            <p>Email: {{ newUser.email }}</p>
+            <p>Identificación: {{ newUser.id_number }}</p>
+            <p>Número de celular: {{ newUser.mobile }}</p>
+            <p>Fecha de cumpleaños: {{ newUser.date_of_birth }}</p>
+        </div>
+
+        <!-- Input para seleccionar categorías de música -->
+        <div class="music-categories">
+            <mat-form-field appearance="fill">
+                <input type="text" matInput placeholder="Selecciona o escribe una categoría"
+                    [formControl]="musicCategoriesControl" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
+                        {{ category.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+    </ng-container>
+</body>

@@ -43,7 +43,7 @@ export class UsuarioComponent implements OnInit {
       this.userService.getAllUsers(token).subscribe(
         (response) => {
           this.usuarios = response;
-          console.log(this.usuarios);
+          //console.log(this.usuarios);
         },
         (error) => {
           console.error('Error al cargar usuarios:', error);
@@ -62,7 +62,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   openEditarUsuarioModal(userId: number) {
-    console.log('Open modal ' + userId);
+    //console.log('Open modal ' + userId);
     this.showForm = true; // Mostrar el formulario al abrir el modal de edición
     this.isEditing = true; // Establecer que se está editando
     

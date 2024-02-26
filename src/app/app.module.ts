@@ -19,7 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CategoryComponent } from './components/category/category.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -41,7 +41,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         CommonModule,
         MatTableModule,
         ReactiveFormsModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        BrowserAnimationsModule
     ],
     providers: [],
 })
