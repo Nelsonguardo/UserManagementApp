@@ -4,8 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from '../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
-
 @Component({
   selector: 'app-usuario',
   templateUrl: './user.component.html',
@@ -151,6 +149,13 @@ export class UsuarioComponent implements OnInit {
               this.snackBar.open('Error al crear usuario', 'Cerrar', {
                 duration: 3000,
               });
+
+              if (error.status === 422) {
+                this.snackBar.open('Email ya registrado', 'Cerrar', {
+                  duration: 3000,
+                });
+  
+              }
             }
           );
         } else {
