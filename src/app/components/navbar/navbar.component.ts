@@ -49,7 +49,7 @@ export class NavbarComponent implements OnInit {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         // Redirigir al usuario a la página de inicio de sesión
-        this.router.navigate(['/login']); // Aquí debes proporcionar la ruta de tu página de inicio de sesión
+        this.router.navigate(['/login']);
       },
       error => {
         console.error('Logout failed', error);

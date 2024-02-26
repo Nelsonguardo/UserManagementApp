@@ -8,6 +8,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  // Obtiene todos los usuarios
   getAllUsers(token: string) {
     return this.http.get<any[]>('http://127.0.0.1:8000/api/users/', {
       headers: {
@@ -16,6 +17,7 @@ export class UserService {
     });
   }
 
+  // Crea un nuevo usuario
   createUser(userData: any, token: string) {
     return this.http.post('http://127.0.0.1:8000/api/users/', userData, {
       headers: {
@@ -24,6 +26,7 @@ export class UserService {
     });
   }
 
+  // Actualiza un usuario existente
   updateUser(userId: number, userData: any, token: string) {
     return this.http.put(`http://127.0.0.1:8000/api/users/${userId}`, userData, {
       headers: {
@@ -32,6 +35,7 @@ export class UserService {
     });
   }
 
+  // Elimina un usuario existente
   deleteUser(userId: number, token: string) {
     return this.http.delete(`http://127.0.0.1:8000/api/users/${userId}`, {
       headers: {
@@ -40,6 +44,7 @@ export class UserService {
     });
   }
 
+  // Obtiene un usuario específico por su ID
   getUser(userId: number, token: string) {
     return this.http.get<any>(`http://127.0.0.1:8000/api/users/${userId}`, {
       headers: {

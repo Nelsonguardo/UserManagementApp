@@ -16,6 +16,7 @@ export class ChangePasswordComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  // Método para cambiar la contraseña
   changePassword() {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -65,6 +66,8 @@ export class ChangePasswordComponent {
         this.successMessage = '';
       });
   }
+
+  // Método para cerrar sesión
   logout() {
     // Obtener el token del localStorage
     const token = localStorage.getItem('token');
@@ -88,13 +91,15 @@ export class ChangePasswordComponent {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         // Redirigir al usuario a la página de inicio de sesión
-        this.router.navigate(['/login']); // Aquí debes proporcionar la ruta de tu página de inicio de sesión
+        this.router.navigate(['/login']); 
       },
       error => {
         console.error('Logout failed', error);
       }
     );
   }
+
+  // Método para validar la nueva contraseña
   validarNuevaContrasena(contrasena: string): boolean {
     // Longitud mínima 8, al menos un número, una letra mayúscula, un carácter especial
     const contrasenaRegex = /^(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;

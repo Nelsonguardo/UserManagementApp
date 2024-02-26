@@ -4,8 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { CategoryService } from '../services/categories.service'; // Cambio de UserService a CategoryService
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
-
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -31,6 +29,7 @@ export class CategoryComponent implements OnInit {
     this.loadCategorias(); // Cambio de loadUsuarios a loadCategorias
   }
 
+  // Función para cargar las categorías desde el servicio
   loadCategorias() {
     const token = localStorage.getItem('token');
     if (token) {
@@ -50,6 +49,7 @@ export class CategoryComponent implements OnInit {
     }
   }
 
+  // Función para abrir el formulario de creación de categoría
   openCrearCategoriaModal() {
     console.log('Open modal');
     this.showForm = true;
@@ -57,8 +57,8 @@ export class CategoryComponent implements OnInit {
     this.clearForm();
   }
 
+  // Función para abrir el formulario de edición de categoría
   openEditarCategoriaModal(categoryId: number) {
-    //console.log('Open modal ' + categoryId);
     this.showForm = true;
     this.isEditing = true;
 
@@ -69,7 +69,7 @@ export class CategoryComponent implements OnInit {
           this.newCategory = category;
         },
         (error) => {
-          this.snackBar.open('Error al optener categoría', 'Cerrar', {
+          this.snackBar.open('Error al obtener categoría', 'Cerrar', {
             duration: 3000,
           });
         }
@@ -79,6 +79,7 @@ export class CategoryComponent implements OnInit {
     }
   }
 
+  // Función para enviar el formulario de categoría (crear o actualizar)
   submitForm() {
     if (this.validarCamposRequeridos()) {
       if (this.isEditing) {
@@ -129,6 +130,7 @@ export class CategoryComponent implements OnInit {
     }
   }
 
+  // Función para eliminar una categoría
   eliminarCategoria(categoryId: number) {
     const token = localStorage.getItem('token');
     if (token) {
@@ -150,23 +152,28 @@ export class CategoryComponent implements OnInit {
     }
   }
 
+  // Función para cerrar el formulario
   closeForm() {
     this.showForm = false;
     this.clearForm();
   }
 
+  // Función para limpiar el formulario
   clearForm() {
     this.newCategory = {
       name: '',
       description: ''
     };
   }
+
+  // Función para abrir un snackbar con un mensaje
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Cerrar', {
       duration: 2000, // Duración en milisegundos
     });
   }
 
+  // Función para validar campos requeridos
   validarCamposRequeridos() {
     let camposFaltantes = [];
   
