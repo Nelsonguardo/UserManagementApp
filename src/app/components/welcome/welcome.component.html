@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <app-navbar></app-navbar>
+    <div class="welcome-container">
+        <h1>Bienvenido {{ user.name }}</h1>
+        <div class="user-info">
+            <p>Nombre: {{ user.name }}</p>
+            <p>Apellido: {{ user.last_name }}</p>
+            <!-- <p>Email: {{ user.email }}</p>
+            <p>Identificación: {{ user.identification }}</p>
+            <p>Número de celular: {{ user.phone_number }}</p>
+            <p>Fecha de cumpleaños: {{ user.birthday }}</p> -->
+        </div>
+    </div>
+    <div class="music-categories">
+        <mat-form-field appearance="fill">
+            <mat-label>Categorías Musicales</mat-label>
+            <input type="text" matInput placeholder="Selecciona o escribe una categoría"
+                [formControl]="musicCategoriesControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
+                    {{ category }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+<div *ngIf="isAdmin; else notAdmin">
+    <nav>
+        <ul>
+            <li><a routerLink="/welcome">Inicio</a></li>
+            <li><a routerLink="/usuarios">Usuarios</a></li>
+            <li><a routerLink="/categorias">Categorías</a></li>
+        </ul>
+        <button mat-button (click)="logout()">Cerrar sesión</button>
+    </nav>
+</div>
+<ng-template #notAdmin>
+    <nav>
+        <button mat-button (click)="logout()">Cerrar sesión</button>
+    </nav>
+</ng-template>

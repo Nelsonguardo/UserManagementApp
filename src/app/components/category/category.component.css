@@ -1,0 +1,92 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos del contenedor principal */
+.category-list-container {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estilos del título */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Estilos del botón "Crear Categoría" */
+.create-category-button {
+    background-color: #26B99A; /* Cambiado a azul */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+/* Estilos de la tabla de categorías */
+.mat-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mat-header-cell,
+.mat-cell {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Estilos de los botones de acciones */
+.edit-button,
+.delete-button {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.delete-button {
+    background-color: #dc3545;
+}
+
+/* Estilos del formulario */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.save-button {
+    background-color: #26B99A; /* Cambiado a azul */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+}
+
+.close-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    margin-bottom: 15px;
+}

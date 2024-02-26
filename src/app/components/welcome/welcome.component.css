@@ -1,0 +1,19 @@
+/* styles.css */
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos del contenedor principal */
+.welcome-container {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Estilos del título */
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
