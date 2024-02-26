@@ -16,7 +16,7 @@
             <form *ngIf="showForm" (ngSubmit)="submitForm()">
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" [(ngModel)]="newUser.email" name="email" id="email">
+                    <input type="email" [(ngModel)]="newUser.email" name="email" id="email" required>
                 </div>
                 <div class="form-group">
                     <label for="name">Nombre:</label>
@@ -28,11 +28,11 @@
                 </div>
                 <div class="form-group">
                     <label for="id_number">Identificación:</label>
-                    <input type="text" [(ngModel)]="newUser.id_number" name="id_number" id="id_number" required>
+                    <input type="text" [(ngModel)]="newUser.id_number" maxlength="11" (keypress)="validarSoloNumeros($event)" name="id_number" id="id_number" required>
                 </div>
                 <div class="form-group">
                     <label for="mobile">Celular:</label>
-                    <input type="text" [(ngModel)]="newUser.mobile" name="mobile" id="mobile" required>
+                    <input type="text" [(ngModel)]="newUser.mobile" maxlength="10" (keypress)="validarSoloNumeros($event)" name="mobile" id="mobile">
                 </div>
                 <!-- Campo de fecha de nacimiento -->
                 <div class="form-group">
@@ -43,14 +43,14 @@
                 <!-- Campo de país -->
                 <div class="form-group">
                     <label for="country">País:</label>
-                    <select [(ngModel)]="newUser.country_id" name="country" id="country" required>
+                    <select [(ngModel)]="newUser.country_id" name="country" id="country">
                         <option value="1">Colombia</option>
                     </select>
                 </div>
                 <!-- Campo de departamento -->
                 <div class="form-group">
                     <label for="department">Departamento:</label>
-                    <select [(ngModel)]="newUser.department_id" name="department" id="department" required>
+                    <select [(ngModel)]="newUser.department_id" name="department" id="department">
                         <option value="1">Antioquia</option>
                         <option value="2">Valle del Cauca</option>
                         <!-- Agrega más opciones según sea necesario -->
@@ -59,7 +59,7 @@
                 <!-- Campo de ciudad -->
                 <div class="form-group">
                     <label for="city_id">Ciudad:</label>
-                    <select [(ngModel)]="newUser.city_id" name="city_id" id="city_id" required>
+                    <select [(ngModel)]="newUser.city_id" name="city_id" id="city_id">
                         <option value="1">Medellín</option>
                         <option value="2">Cali</option>
                         <!-- Agrega más opciones según sea necesario -->
@@ -67,17 +67,17 @@
                 </div>
                 <div class="form-group">
                     <label for="city_code">Codigo Ciudad:</label>
-                    <input type="text" [(ngModel)]="newUser.city_code" name="city_code" id="city_code" required>
+                    <input type="text" [(ngModel)]="newUser.city_code" name="city_code" id="city_code" (keypress)="validarSoloNumeros($event)" required>
                 </div>
                 <!-- Campos de contraseña solo si no está en modo de edición -->
                 <div class="form-group">
                     <label for="password">Contraseña:</label>
-                    <input type="password" [(ngModel)]="newUser.password" name="password" id="password" required>
+                    <input type="password" [(ngModel)]="newUser.password" name="password" id="password">
                 </div>
                 <div class="form-group" *ngIf="!isEditing">
                     <label for="password_confirmation">Confirmar Contraseña:</label>
                     <input type="password" [(ngModel)]="newUser.password_confirmation" name="password_confirmation"
-                        id="password_confirmation" required>
+                        id="password_confirmation">
                 </div>
                 <div class="botones">
                     <button mat-button type="submit" class="save-button">Guardar</button>

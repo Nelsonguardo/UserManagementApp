@@ -2,6 +2,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CategoryService } from '../services/categories.service'; // Cambio de UserService a CategoryService
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 
 @Component({
   selector: 'app-category',
@@ -17,10 +20,11 @@ export class CategoryComponent implements OnInit {
     name: '',
     description: ''
   };
-  
+
   constructor(
     private http: HttpClient,
-    private categoryService: CategoryService // Cambio de UserService a CategoryService
+    private categoryService: CategoryService, // Cambio de UserService a CategoryService
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +40,9 @@ export class CategoryComponent implements OnInit {
           console.log(this.categorias);
         },
         (error) => {
-          console.error('Error al cargar categorías:', error);
+          this.snackBar.open('Error al cargar categoría', 'Cerrar', {
+            duration: 3000,
+          });
         }
       );
     } else {
@@ -55,7 +61,7 @@ export class CategoryComponent implements OnInit {
     //console.log('Open modal ' + categoryId);
     this.showForm = true;
     this.isEditing = true;
-    
+
     const token = localStorage.getItem('token');
     if (token) {
       this.categoryService.getCategory(categoryId, token).subscribe(
@@ -63,64 +69,80 @@ export class CategoryComponent implements OnInit {
           this.newCategory = category;
         },
         (error) => {
-          console.error('Error al obtener la categoría:', error);
+          this.snackBar.open('Error al optener categoría', 'Cerrar', {
+            duration: 3000,
+          });
         }
       );
     } else {
       console.error('No se encontró un token en el almacenamiento local.');
     }
   }
-  
+
   submitForm() {
-    console.log('Submit form');
-    if (this.isEditing) {
-      const categoryId = this.newCategory.id;
-      const token = localStorage.getItem('token');
-      if (token) {
-        this.categoryService.updateCategory(categoryId, this.newCategory, token).subscribe(
-          (response) => {
-            console.log('Categoría actualizada exitosamente:', response);
-            this.showForm = false;
-            this.clearForm();
-            this.loadCategorias();
-          },
-          (error) => {
-            console.error('Error al actualizar categoría:', error);
-          }
-        );
+    if (this.validarCamposRequeridos()) {
+      if (this.isEditing) {
+        const categoryId = this.newCategory.id;
+        const token = localStorage.getItem('token');
+        if (token) {
+          this.categoryService.updateCategory(categoryId, this.newCategory, token).subscribe(
+            (response) => {
+              this.snackBar.open('Categoría actualizada correctamente', 'Cerrar', {
+                duration: 3000, // Duración en milisegundos
+              });
+              this.showForm = false;
+              this.clearForm();
+              this.loadCategorias();
+            },
+            (error) => {
+              this.snackBar.open('Error al actualizar categoría', 'Cerrar', {
+                duration: 3000,
+              });
+            }
+          );
+        } else {
+          console.error('No se encontró un token en el almacenamiento local.');
+        }
       } else {
-        console.error('No se encontró un token en el almacenamiento local.');
-      }
-    } else {
-      const token = localStorage.getItem('token');
-      if (token) {
-        this.categoryService.createCategory(this.newCategory, token).subscribe(
-          (response) => {
-            console.log('Categoría creada exitosamente:', response);
-            this.categorias.push(this.newCategory);
-            this.showForm = false;
-            this.clearForm();
-            this.loadCategorias();
-          },
-          (error) => {
-            console.error('Error al crear categoría:', error);
-          }
-        );
-      } else {
-        console.error('No se encontró un token en el almacenamiento local.');
+        const token = localStorage.getItem('token');
+        if (token) {
+          this.categoryService.createCategory(this.newCategory, token).subscribe(
+            (response) => {
+              this.snackBar.open('Categoría creada correctamente', 'Cerrar', {
+                duration: 3000, // Duración en milisegundos
+              });
+              this.categorias.push(this.newCategory);
+              this.showForm = false;
+              this.clearForm();
+              this.loadCategorias();
+            },
+            (error) => {
+              this.snackBar.open('Error al crear categoría', 'Cerrar', {
+                duration: 3000,
+              });
+            }
+          );
+        } else {
+          console.error('No se encontró un token en el almacenamiento local.');
+        }
       }
     }
   }
-  
+
   eliminarCategoria(categoryId: number) {
     const token = localStorage.getItem('token');
     if (token) {
       this.categoryService.deleteCategory(categoryId, token).subscribe(
         () => {
+          this.snackBar.open('Categoría eliminada correctamente', 'Cerrar', {
+            duration: 3000, // Duración en milisegundos
+          });
           this.categorias = this.categorias.filter(category => category.id !== categoryId);
         },
         (error) => {
-          console.error('Error al eliminar categoría:', error);
+          this.snackBar.open('Error al eliminar categoría', 'Cerrar', {
+            duration: 3000,
+          });
         }
       );
     } else {
@@ -138,5 +160,21 @@ export class CategoryComponent implements OnInit {
       name: '',
       description: ''
     };
+  }
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 2000, // Duración en milisegundos
+    });
+  }
+
+  validarCamposRequeridos() {
+    let camposFaltantes = [];
+  
+    if (!this.newCategory.name) {
+      camposFaltantes.push('Nombre de categoría');
+      this.openSnackBar('El nombre de la categoría es obligatorio');
+      return false;
+    }
+    return true;
   }
 }

@@ -20,6 +20,10 @@ import { CategoryComponent } from './components/category/category.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+
 
 @NgModule({
     declarations: [
@@ -42,7 +46,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         MatTableModule,
         ReactiveFormsModule,
         MatAutocompleteModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatSnackBarModule
     ],
     providers: [],
 })

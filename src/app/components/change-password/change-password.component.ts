@@ -23,6 +23,17 @@ export class ChangePasswordComponent {
       return;
     }
 
+    if (this.newPassword !== this.confirmPassword) {
+      this.errorMessage = 'Las contraseñas no coinciden.';
+      return;
+    }
+  
+    // Validar la nueva contraseña según los criterios requeridos
+    if (!this.validarNuevaContrasena(this.newPassword)) {
+      this.errorMessage = 'La nueva contraseña debe tener al menos 8 caracteres, un número, una letra mayúscula y un carácter especial.';
+      return;
+    }
+    
     const url = 'http://127.0.0.1:8000/api/auth/change-password';
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + token
@@ -83,5 +94,10 @@ export class ChangePasswordComponent {
         console.error('Logout failed', error);
       }
     );
+  }
+  validarNuevaContrasena(contrasena: string): boolean {
+    // Longitud mínima 8, al menos un número, una letra mayúscula, un carácter especial
+    const contrasenaRegex = /^(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
+    return contrasenaRegex.test(contrasena);
   }
 }
