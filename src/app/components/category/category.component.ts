@@ -184,4 +184,9 @@ export class CategoryComponent implements OnInit {
     }
     return true;
   }
+  
+  capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
+  
 }

@@ -28,11 +28,13 @@
                 </div>
                 <div class="form-group">
                     <label for="id_number">Identificación:</label>
-                    <input type="text" [(ngModel)]="newUser.id_number" maxlength="11" (keypress)="validarSoloNumeros($event)" name="id_number" id="id_number" required>
+                    <input type="text" [(ngModel)]="newUser.id_number" maxlength="11"
+                        (keypress)="validarSoloNumeros($event)" name="id_number" id="id_number" required>
                 </div>
                 <div class="form-group">
                     <label for="mobile">Celular:</label>
-                    <input type="text" [(ngModel)]="newUser.mobile" maxlength="10" (keypress)="validarSoloNumeros($event)" name="mobile" id="mobile">
+                    <input type="text" [(ngModel)]="newUser.mobile" maxlength="10"
+                        (keypress)="validarSoloNumeros($event)" name="mobile" id="mobile">
                 </div>
                 <!-- Campo de fecha de nacimiento -->
                 <div class="form-group">
@@ -40,22 +42,21 @@
                     <input type="date" [(ngModel)]="newUser.date_of_birth" name="date_of_birth" id="date_of_birth"
                         required>
                 </div>
-                <!-- Campo de país -->
                 <div class="form-group">
                     <label for="country">País:</label>
-                    <select [(ngModel)]="newUser.country_id" name="country" id="country">
+                    <select [(ngModel)]="newUser.country_id" name="country" id="country" (change)="onCountryChange()">
                         <option value=""></option>
-                        <option value="1">Colombia</option>
+                        <option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</option>
                     </select>
                 </div>
                 <!-- Campo de departamento -->
                 <div class="form-group">
                     <label for="department">Departamento:</label>
-                    <select [(ngModel)]="newUser.department_id" name="department" id="department">
+                    <select [(ngModel)]="newUser.department_id" name="department" id="department"
+                        (change)="onDepartmentChange()">
                         <option value=""></option>
-                        <option value="1">Antioquia</option>
-                        <option value="2">Valle del Cauca</option>
-                        <!-- Agrega más opciones según sea necesario -->
+                        <option *ngFor="let department of selectedCountryDepartments" [value]="department.id">{{
+                            department.nombre }}</option>
                     </select>
                 </div>
                 <!-- Campo de ciudad -->
@@ -63,14 +64,14 @@
                     <label for="city_id">Ciudad:</label>
                     <select [(ngModel)]="newUser.city_id" name="city_id" id="city_id">
                         <option value=""></option>
-                        <option value="1">Medellín</option>
-                        <option value="2">Cali</option>
-                        <!-- Agrega más opciones según sea necesario -->
+                        <option *ngFor="let city of selectedDepartmentCities" [value]="city.id">{{ city.nombre }}
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="city_code">Codigo Ciudad:</label>
-                    <input type="text" [(ngModel)]="newUser.city_code" name="city_code" id="city_code" (keypress)="validarSoloNumeros($event)" required>
+                    <input type="text" [(ngModel)]="newUser.city_code" name="city_code" id="city_code"
+                        (keypress)="validarSoloNumeros($event)" required>
                 </div>
                 <!-- Campos de contraseña solo si no está en modo de edición -->
                 <div class="form-group" *ngIf="!isEditing">
@@ -100,13 +101,13 @@
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                <td mat-cell *matCellDef="let usuario"> {{usuario.name}} </td>
+                <td mat-cell *matCellDef="let usuario"> {{capitalizeFirstLetter(usuario.name)}} </td>
             </ng-container>
 
             <!-- Last Name Column -->
             <ng-container matColumnDef="last_name">
                 <th mat-header-cell *matHeaderCellDef> Apellido </th>
-                <td mat-cell *matCellDef="let usuario"> {{usuario.last_name}} </td>
+                <td mat-cell *matCellDef="let usuario"> {{capitalizeFirstLetter(usuario.last_name)}} </td>
             </ng-container>
 
             <!-- Actions Column -->

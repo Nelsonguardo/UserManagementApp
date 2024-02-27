@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { userData } from './data';
+
 
 @Component({
   selector: 'app-usuario',
@@ -11,6 +13,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UsuarioComponent implements OnInit {
   displayedColumns: string[] = ['email', 'name', 'last_name', 'actions'];
+  countries: any[] = userData.countries;
+  selectedCountryDepartments: any[] = [];
+  selectedDepartmentCities: any[] = [];
   usuarios: any[] = [];
   showForm: boolean = false; // Variable para mostrar/ocultar el formulario
   isEditing: boolean = false; // Variable para indicar si se está editando un usuario
@@ -38,6 +43,7 @@ export class UsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUsuarios();
+    this.clearFilters();
   }
 
   loadUsuarios() {
@@ -46,6 +52,7 @@ export class UsuarioComponent implements OnInit {
       this.userService.getAllUsers(token).subscribe(
         (response) => {
           this.usuarios = response;
+          this.clearFilters();
           //console.log(this.usuarios);
         },
         (error) => {
@@ -58,12 +65,14 @@ export class UsuarioComponent implements OnInit {
   }
 
   openCrearUsuarioModal() {
+    this.clearFilters();
     this.showForm = true; // Mostrar el formulario al abrir el modal de creación
     this.isEditing = false; // Establecer que no se está editando
     this.clearForm();
   }
 
   openEditarUsuarioModal(userId: number) {
+    this.clearFilters();
     //console.log('Open modal ' + userId);
     this.showForm = true; // Mostrar el formulario al abrir el modal de edición
     this.isEditing = true; // Establecer que se está editando
@@ -72,17 +81,19 @@ export class UsuarioComponent implements OnInit {
     if (token) {
       this.userService.getUser(userId, token).subscribe(
         (user) => {
-          // Obtener solo la parte de la fecha sin la marca de tiempo y la zona horaria
           const dbDate = user.date_of_birth.split('T')[0];
-
-          // Asignar solo la fecha formateada al usuario
           this.newUser.date_of_birth = dbDate;
-          // Mantener el resto de los datos del usuario en this.newUser
           delete user.date_of_birth; // Eliminar la fecha de nacimiento para evitar duplicados
           Object.assign(this.newUser, user); // Asignar el resto de los datos del usuario a this.newUser
+          // Asignar el resto de los datos del usuario a this.newUser
+          delete user.date_of_birth;
+          Object.assign(this.newUser, user);
 
-          // Comprobación en la consola para asegurarse de que la fecha esté formateada correctamente
-          //console.log('Fecha formateada:', this.newUser.date_of_birth);
+          // Asignar los valores seleccionados en los desplegables
+          this.selectedCountryDepartments = this.countries.find(country => country.id === Number(this.newUser.country_id)).departamentos;
+          this.selectedDepartmentCities = this.selectedCountryDepartments.find(department => department.id === Number(this.newUser.department_id)).ciudades;
+
+
         },
         (error) => {
           console.error('Error al obtener el usuario:', error);
@@ -92,7 +103,6 @@ export class UsuarioComponent implements OnInit {
       console.error('No se encontró un token en el almacenamiento local.');
     }
   }
-
 
   submitForm() {
 
@@ -113,6 +123,7 @@ export class UsuarioComponent implements OnInit {
                 duration: 3000, // Duración en milisegundos
               });
               // Lógica adicional después de la actualización
+              this.clearFilters();
               this.showForm = false; // Ocultar el formulario después de enviar
               this.clearForm();
               this.loadUsuarios();
@@ -140,6 +151,7 @@ export class UsuarioComponent implements OnInit {
               this.snackBar.open('Usuario creado correctamente', 'Cerrar', {
                 duration: 3000,
               });
+              this.clearFilters();
               this.usuarios.push(this.newUser);
               this.showForm = false; // Ocultar el formulario después de enviar
               this.clearForm();
@@ -154,7 +166,7 @@ export class UsuarioComponent implements OnInit {
                 this.snackBar.open('Email ya registrado', 'Cerrar', {
                   duration: 3000,
                 });
-  
+
               }
             }
           );
@@ -165,7 +177,6 @@ export class UsuarioComponent implements OnInit {
     }
 
   }
-
 
   eliminarUsuario(userId: number) {
     const token = localStorage.getItem('token');
@@ -189,6 +200,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   closeForm() {
+    this.clearFilters();
     this.showForm = false; // Ocultar el formulario
     this.clearForm(); // Limpiar el formulario
   }
@@ -212,30 +224,30 @@ export class UsuarioComponent implements OnInit {
   }
   validarCamposRequeridos() {
     let camposFaltantes = [];
-  
+
     if (!this.newUser.email) {
       camposFaltantes.push('Email');
     }
-  
+
     if (!this.newUser.name) {
       camposFaltantes.push('Nombre');
     }
-  
+
     if (!this.newUser.last_name) {
       camposFaltantes.push('Apellido');
     }
-  
+
     if (!this.newUser.id_number) {
       camposFaltantes.push('Identificación');
     }
-  
+
     if (!this.newUser.date_of_birth) {
       camposFaltantes.push('Fecha de Nacimiento');
     } else if (this.calcularEdad(this.newUser.date_of_birth) < 18) {
       this.openSnackBar('Debe ser mayor de 18 años');
       return false;
     }
-  
+
     if (!this.newUser.city_code) {
       camposFaltantes.push('Código Ciudad');
     }
@@ -249,7 +261,7 @@ export class UsuarioComponent implements OnInit {
       this.openSnackBar('Las contraseñas no coinciden');
       return false;
     }
-  
+
     if (!this.isEditing) {
       if (!this.newUser.password) {
         camposFaltantes.push('Contraseña');
@@ -262,21 +274,21 @@ export class UsuarioComponent implements OnInit {
       this.openSnackBar('La contraseña debe tener al menos 8 caracteres, un número, una letra mayúscula y un carácter especial');
       return false;
     }
-  
+
     if (camposFaltantes.length > 0) {
       const message = `Los siguientes campos son requeridos: ${camposFaltantes.join(', ')}`;
       this.openSnackBar(message);
       return false;
     }
-  
+
     if (this.newUser.email && !this.validarFormatoEmail(this.newUser.email)) {
       this.openSnackBar('El formato del email no es válido');
       return false;
     }
-  
+
     return true;
   }
-  
+
   validarFormatoEmail(email: string): boolean {
     // Expresión regular para validar formato de email
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -308,5 +320,39 @@ export class UsuarioComponent implements OnInit {
     // Longitud mínima 8, al menos un número, una letra mayúscula, un carácter especial
     const contrasenaRegex = /^(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
     return contrasenaRegex.test(contrasena);
+  }
+
+  onCountryChange() {
+    const selectedCountry = this.countries.find(country => country.id === Number(this.newUser.country_id));
+    if (selectedCountry) {
+      this.selectedCountryDepartments = selectedCountry.departamentos;
+      this.selectedDepartmentCities = [];
+      this.newUser.department_id = '';
+      this.newUser.city_id = '';
+    }
+  }
+
+  // Método para manejar el cambio de departamento
+  onDepartmentChange() {
+    const selectedDepartment = this.selectedCountryDepartments.find(department => department.id === Number(this.newUser.department_id));
+    if (selectedDepartment) {
+      this.selectedDepartmentCities = selectedDepartment.ciudades;
+      this.newUser.city_id = '';
+    }
+  }
+
+  clearFilters() {
+    this.selectedCountryDepartments = [];
+    this.selectedDepartmentCities = [];
+    this.newUser.country_id = '';
+    this.newUser.department_id = '';
+    this.newUser.city_id = '';
+  }
+  capitalizeName() {
+    this.newUser.name = this.capitalizeFirstLetter(this.newUser.name);
+  }
+  
+  capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 }

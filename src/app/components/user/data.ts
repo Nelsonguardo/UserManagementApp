@@ -72,7 +72,36 @@ export const userData = {
                         { id: 803, nombre: "Chinchiná" }
                     ]
                 }
-                // Puedes continuar añadiendo más departamentos aquí
+            ]
+        },
+        {
+            id: 58,
+            name: "Argentina",
+            departamentos: [
+                {
+                    id: 9,
+                    nombre: "Buenos Aires",
+                    ciudades: [
+                        { id: 901, nombre: "Buenos Aires" },
+                        { id: 902, nombre: "La Plata" }
+                    ]
+                },
+                {
+                    id: 10,
+                    nombre: "Córdoba",
+                    ciudades: [
+                        { id: 1001, nombre: "Córdoba" },
+                        { id: 1002, nombre: "Villa María" }
+                    ]
+                },
+                {
+                    id: 11,
+                    nombre: "Santa Fe",
+                    ciudades: [
+                        { id: 1101, nombre: "Santa Fe" },
+                        { id: 1102, nombre: "Rosario" }
+                    ]
+                }
             ]
         }
     ]

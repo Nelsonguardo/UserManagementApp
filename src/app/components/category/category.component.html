@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label for="description">Descripción:</label>
-                <input type="text" [(ngModel)]="newCategory.description" name="description" id="description">
+                <input type="text" [(ngModel)]="newCategory.description"  name="description" id="description">
             </div>
             <div class="botones">
                 <button mat-button type="submit" class="save-button">Guardar</button>
@@ -33,13 +33,13 @@
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                <td mat-cell *matCellDef="let categoria"> {{categoria.name}} </td>
+                <td mat-cell *matCellDef="let categoria"> {{ capitalizeFirstLetter(categoria.name)}} </td>
             </ng-container>
 
             <!-- Description Column -->
             <ng-container matColumnDef="description">
                 <th mat-header-cell *matHeaderCellDef> Descripción </th>
-                <td mat-cell *matCellDef="let categoria"> {{categoria.description}} </td>
+                <td mat-cell *matCellDef="let categoria"> {{capitalizeFirstLetter(categoria.description)}} </td>
             </ng-container>
 
             <!-- Actions Column -->
