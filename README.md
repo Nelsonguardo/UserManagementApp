@@ -1,27 +1,41 @@
-# UserManagementApp
+# Guía para Correr un Proyecto en Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.1.
+Esta guía te ayudará a configurar y ejecutar un proyecto en Angular que incluye los módulos y componentes necesarios.
 
-## Development server
+## 1. Clonar o Crear un Proyecto Angular
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Si aún no tienes un proyecto Angular, puedes crear uno nuevo utilizando Angular CLI con el siguiente comando:
 
-## Code scaffolding
+```bash
+ng new UserManagementApp
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
 
-## Build
+  Clona el repositorio desde Git utilizando el siguiente comando en tu terminal:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+   ```bash
+   git clone https://github.com/Nelsonguardo/UserManagementApp.git
+ ```
+## 2. Navegar al Directorio del Proyecto
 
-## Running unit tests
+Utiliza el comando cd para ingresar al directorio de tu proyecto recién creado o clonado:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+cd UserManagementApp
+```
 
-## Running end-to-end tests
+## 3. Instalar Dependencias
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Ejecuta el comando npm install o npm i para instalar todas las dependencias especificadas en el archivo package.json del proyecto.
 
-## Further help
+```bash
+npm install
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## 4. Ejecutar el Servidor de Desarrollo
+
+Utiliza el comando ng serve para iniciar el servidor de desarrollo de Angular:
+
+```bash
+ng serve
+```
