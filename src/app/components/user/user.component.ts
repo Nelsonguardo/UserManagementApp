@@ -132,6 +132,13 @@ export class UsuarioComponent implements OnInit {
               this.snackBar.open('Error al actualizar usuario', 'Cerrar', {
                 duration: 3000,
               });
+              if (error.status === 422) {
+                this.snackBar.open('Email ya registrado', 'Cerrar', {
+                  duration: 3000,
+                });
+
+              }
+
             }
           );
         } else {
@@ -351,7 +358,7 @@ export class UsuarioComponent implements OnInit {
   capitalizeName() {
     this.newUser.name = this.capitalizeFirstLetter(this.newUser.name);
   }
-  
+
   capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }

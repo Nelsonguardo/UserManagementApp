@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-change-password',
@@ -14,7 +15,7 @@ export class ChangePasswordComponent {
   errorMessage: string = '';
   successMessage: string = '';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private snackBar: MatSnackBar) {}
 
   // Método para cambiar la contraseña
   changePassword() {
@@ -52,6 +53,9 @@ export class ChangePasswordComponent {
         this.successMessage = 'Contraseña cambiada con éxito.';
         this.errorMessage = ''; // Limpiar el mensaje de error si hubiera alguno
         // Redirige a la página de inicio de sesión después de cambiar la contraseña
+        this.snackBar.open('Contraseña cambiada con éxito', 'Cerrar', {
+          duration: 3000, // Duración en milisegundos
+        });
         this.logout();
         this.router.navigate(['/login']);
       }, error => {
